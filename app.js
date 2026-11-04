@@ -299,9 +299,9 @@ menuButton.addEventListener('click',()=>{
 nav.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>{menuButton.setAttribute('aria-expanded','false');nav.classList.remove('is-open');}));
 
 const projectInfo={
-  'Orbit':{type:'DIGITAL EXPERIENCE · 2025',title:'Orbit — made to move you.',description:'A speculative launch experience built around a singular product idea. A focused visual system, tactile motion and an immersive point of view turn a first look into a small journey.'},
-  'Still Form':{type:'BRAND & DIGITAL · 2024',title:'Still Form — less, but better.',description:'An editorial home for considered objects and slower living. Warm materials, confident typography and a calm, responsive layout give every piece a little room to breathe.'},
-  'Night Shift':{type:'INTERACTIVE · 2024',title:'Night Shift — sound after dark.',description:'An interactive sound study for the hours after everything gets quiet. Oscillating forms and a late-night palette make listening feel like exploring.'}
+  'Orbit':{type:'DIGITAL EXPERIENCE · CONCEPT STUDY',title:'Orbit — made to move you.',description:'A speculative launch concept centered on a singular product idea. The visual direction explores tactile motion and an immersive reveal as a way to tell a premium product story.', details:['Format: speculative concept exploration; client engagement not verified','Design intent: explore a focused product reveal through visual storytelling and motion','Outcome: no client or performance outcomes are claimed for this concept']},
+  'Still Form':{type:'BRAND & DIGITAL · CONCEPT STUDY',title:'Still Form — less, but better.',description:'An editorial-commerce concept for considered objects and slower living. Warm materials, confident typography and a calm layout explore a quieter digital presentation.', details:['Format: speculative concept exploration; client engagement not verified','Design intent: explore an editorial home for considered objects and slower living','Outcome: no client or performance outcomes are claimed for this concept']},
+  'Night Shift':{type:'INTERACTIVE · CONCEPT STUDY',title:'Night Shift — sound after dark.',description:'A sound-led interaction concept for the hours after everything gets quiet. Oscillating forms and a late-night palette explore how listening might feel like moving through a space.', details:['Format: speculative concept exploration; client engagement not verified','Design intent: explore an ambient sound story through motion, form and atmosphere','Outcome: no client or performance outcomes are claimed for this concept']}
 };
 const modal=document.querySelector('.project-modal');
 const closeModal=()=>{modal.classList.remove('is-open');modal.setAttribute('aria-hidden','true');document.body.classList.remove('modal-open');};
@@ -312,6 +312,15 @@ function openProject(card){
   modal.querySelector('.modal-type').textContent=info.type;
   modal.querySelector('#modal-title').textContent=info.title;
   modal.querySelector('.modal-description').textContent=info.description;
+  const detailList = modal.querySelector('.modal-details');
+  if (detailList) {
+    detailList.innerHTML = '';
+    (info.details || []).forEach((item) => {
+      const li = document.createElement('li');
+      li.textContent = item;
+      detailList.appendChild(li);
+    });
+  }
   modal.classList.add('is-open');modal.setAttribute('aria-hidden','false');document.body.classList.add('modal-open');
   modal.querySelector('.modal-close').focus();
 }
