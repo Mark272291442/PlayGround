@@ -1,0 +1,87 @@
+[gd_resource type="Theme" load_steps=9 format=3]
+
+[ext_resource type="FontFile" path="res://assets/fonts/Lato-Regular.ttf" id="1_regular"]
+[ext_resource type="FontFile" path="res://assets/fonts/Lato-Semibold.ttf" id="2_semibold"]
+[ext_resource type="FontFile" path="res://assets/fonts/Lato-Bold.ttf" id="3_bold"]
+
+[sub_resource type="StyleBoxFlat" id="ButtonNormal"]
+bg_color = Color(0.843137, 0.305882, 0.407843, 1)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+shadow_color = Color(0.843137, 0.305882, 0.407843, 0.2)
+shadow_size = 28
+shadow_offset = Vector2(0, 10)
+content_margin_left = 97.0
+content_margin_top = 18.0
+content_margin_right = 97.0
+content_margin_bottom = 18.0
+
+[sub_resource type="StyleBoxFlat" id="ButtonHover"]
+bg_color = Color(0.909804, 0.364706, 0.462745, 1)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+shadow_color = Color(0.909804, 0.364706, 0.462745, 0.29)
+shadow_size = 36
+shadow_offset = Vector2(0, 13)
+content_margin_left = 97.0
+content_margin_top = 18.0
+content_margin_right = 97.0
+content_margin_bottom = 18.0
+
+[sub_resource type="StyleBoxFlat" id="ButtonPressed"]
+bg_color = Color(0.733333, 0.239216, 0.345098, 1)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+content_margin_left = 97.0
+content_margin_top = 18.0
+content_margin_right = 97.0
+content_margin_bottom = 18.0
+
+[sub_resource type="StyleBoxFlat" id="ButtonDisabled"]
+bg_color = Color(0.263, 0.333, 0.49, 1)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+content_margin_left = 97.0
+content_margin_top = 18.0
+content_margin_right = 97.0
+content_margin_bottom = 18.0
+
+[sub_resource type="StyleBoxFlat" id="ButtonFocus"]
+bg_color = Color(0, 0, 0, 0)
+border_color = Color(0.956863, 0.964706, 1, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[resource]
+default_font = ExtResource("1_regular")
+default_font_size = 40
+
+Label/colors/font_color = Color(0.956863, 0.964706, 1, 1)
+Label/fonts/font = ExtResource("2_semibold")
+Label/font_sizes/font_size = 40
+
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_hover_color = Color(1, 1, 1, 1)
+Button/colors/font_pressed_color = Color(1, 1, 1, 1)
+Button/colors/font_disabled_color = Color(0.8, 0.82, 0.9, 1)
+Button/fonts/font = ExtResource("3_bold")
+Button/font_sizes/font_size = 36
+Button/styles/normal = SubResource("ButtonNormal")
+Button/styles/hover = SubResource("ButtonHover")
+Button/styles/pressed = SubResource("ButtonPressed")
+Button/styles/disabled = SubResource("ButtonDisabled")
+Button/styles/focus = SubResource("ButtonFocus")

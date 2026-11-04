@@ -54,89 +54,82 @@ func _persona_prompt() -> String:
 func _build_ui() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var background := ColorRect.new()
-	background.color = Color("080d1b")
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var background_material := ShaderMaterial.new()
+	background_material.shader = load("res://assets/shaders/background.gdshader")
+	background.material = background_material
+	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(background)
-
-	var top_glow := ColorRect.new()
-	top_glow.color = Color(0.13, 0.20, 0.36, 0.20)
-	top_glow.position = Vector2(0, 0)
-	top_glow.size = Vector2(720, 340)
-	top_glow.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	add_child(top_glow)
 
 	var brand := Label.new()
 	brand.text = "E C H O"
 	brand.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	brand.add_theme_font_size_override("font_size", 16)
+	brand.add_theme_font_size_override("font_size", 36)
 	brand.add_theme_color_override("font_color", Color("9aa8c3"))
 	brand.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	brand.offset_top = 54
-	brand.offset_bottom = 82
+	brand.offset_top = 108
+	brand.offset_bottom = 153
 	add_child(brand)
 
 	var companion := Label.new()
 	companion.text = EchoConfig.ana_name
 	companion.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	companion.add_theme_font_size_override("font_size", 35)
+	companion.add_theme_font_size_override("font_size", 108)
 	companion.add_theme_color_override("font_color", Color("f4f6ff"))
 	companion.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	companion.offset_top = 117
-	companion.offset_bottom = 165
+	companion.offset_top = 276
+	companion.offset_bottom = 414
 	add_child(companion)
 
 	_status = Label.new()
 	_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_status.add_theme_font_size_override("font_size", 15)
+	_status.add_theme_font_size_override("font_size", 42)
 	_status.add_theme_color_override("font_color", Color("aab7cf"))
 	_status.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	_status.offset_top = 170
-	_status.offset_bottom = 202
+	_status.offset_top = 450
+	_status.offset_bottom = 510
 	add_child(_status)
 
 	_orb = Control.new()
 	_orb.set_script(load("res://scripts/Orb.gd"))
-	_orb.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_orb.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_orb.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(_orb)
 	_orb.z_index = 1
+	add_child(_orb)
 
 	_hint = Label.new()
 	_hint.text = "Your call is private to you"
 	_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_hint.add_theme_font_size_override("font_size", 14)
+	_hint.add_theme_font_size_override("font_size", 39)
 	_hint.add_theme_color_override("font_color", Color("7786a3"))
 	_hint.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	_hint.offset_top = -184
-	_hint.offset_bottom = -150
+	_hint.offset_top = -510
+	_hint.offset_bottom = -465
 	add_child(_hint)
 
 	_end_button = Button.new()
 	_end_button.text = "END CALL"
-	_end_button.custom_minimum_size = Vector2(210, 62)
-	_end_button.add_theme_font_size_override("font_size", 16)
-	_end_button.add_theme_color_override("font_color", Color.WHITE)
-	var normal := StyleBoxFlat.new()
-	normal.bg_color = Color("d74e68")
-	normal.corner_radius_top_left = 31
-	normal.corner_radius_top_right = 31
-	normal.corner_radius_bottom_left = 31
-	normal.corner_radius_bottom_right = 31
-	normal.content_margin_left = 34
-	normal.content_margin_right = 34
-	_end_button.add_theme_stylebox_override("normal", normal)
-	var hover := normal.duplicate() as StyleBoxFlat
-	hover.bg_color = Color("ed627a")
-	_end_button.add_theme_stylebox_override("hover", hover)
+	_end_button.custom_minimum_size = Vector2(630, 180)
+	_end_button.add_theme_font_size_override("font_size", 39)
 	_end_button.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
 	_end_button.anchor_left = 0.5
 	_end_button.anchor_right = 0.5
-	_end_button.offset_left = -105
-	_end_button.offset_right = 105
-	_end_button.offset_top = -112
-	_end_button.offset_bottom = -50
+	_end_button.offset_left = -315
+	_end_button.offset_right = 315
+	_end_button.offset_top = -390
+	_end_button.offset_bottom = -210
 	_end_button.pressed.connect(_on_end_pressed)
 	add_child(_end_button)
+
+	var caption := Label.new()
+	caption.text = "A VOICE COMPANION · FILIPINO & ENGLISH"
+	caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	caption.add_theme_font_size_override("font_size", 30)
+	caption.add_theme_color_override("font_color", Color("52617d"))
+	caption.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+	caption.offset_top = -190
+	caption.offset_bottom = -150
+	add_child(caption)
 
 	_player = AudioStreamPlayer.new()
 	_player.bus = "ECHO Voice"
