@@ -20,6 +20,7 @@ var _voice_bus := -1
 var _mic_capture: AudioEffectCapture
 var _state := "starting"
 var _muted := false
+var _mic_permission_granted := false
 var _call_ended := false
 var _speech_seconds := 0.0
 var _silence_seconds := 0.0
@@ -41,8 +42,11 @@ func _ready() -> void:
 		_set_state("setup", "Add API credentials to start")
 		_hint.text = "See README for private setup"
 	else:
-		_start_mic()
-		_set_state("listening", "Say hello to Ana")
+		_mic_permission_granted = _start_mic()
+		if _mic_permission_granted:
+			_set_state("listening", "Say hello to Ana")
+		else:
+			_show_mic_permission_error()
 
 func _persona_prompt() -> String:
 	return EchoConfig.SYSTEM_PROMPT.replace("You are Ana", "You are %s" % EchoConfig.ana_name)
@@ -167,14 +171,21 @@ func _setup_audio() -> void:
 	_mic_player.bus = "ECHO Mic"
 	add_child(_mic_player)
 
-func _start_mic() -> void:
-	if OS.has_feature("android"):
-		OS.request_permissions()
+func _start_mic() -> bool:
+	if OS.has_feature("android") and not OS.request_permissions():
+		return false
 	if not _mic_player.playing:
 		_mic_player.play()
+	return true
+
+func _show_mic_permission_error() -> void:
+	_mic_permission_granted = false
+	_end_button.text = "ALLOW MIC"
+	_set_state("permission", "Microphone permission is required")
+	_hint.text = "Allow microphone access in Android Settings, then tap to retry"
 
 func _process(delta: float) -> void:
-	if _call_ended or _muted or _mic_bus < 0:
+	if _call_ended or _muted or not _mic_permission_granted or _mic_bus < 0:
 		return
 	var mic_amplitude := _read_mic_amplitude()
 	var level_db := linear_to_db(maxf(mic_amplitude, 0.00001))
@@ -422,16 +433,16 @@ func _set_state(next_state: String, message: String) -> void:
 		_hint.text = "Your call is private to you"
 
 func _on_end_pressed() -> void:
-	if _call_ended:
+	if _call_ended or not _mic_permission_granted:
+		if not _start_mic():
+			_show_mic_permission_error()
+			return
+		_mic_permission_granted = true
 		_call_ended = false
 		_generation += 1
 		_end_button.text = "END CALL"
 		_hint.text = "Your call is private to you"
-		if not EchoConfig.missing_setting().is_empty():
-			_set_state("setup", "Add API credentials to start")
-		else:
-			_start_mic()
-			_set_state("listening", "Say hello to Ana")
+		_set_state("listening", "Say hello to Ana")
 		return
 	_call_ended = true
 	_generation += 1

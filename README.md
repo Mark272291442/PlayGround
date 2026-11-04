@@ -2,14 +2,30 @@
 
 A minimal Godot 4 portrait Android voice companion. There is no text-chat interface: a central animated orb, call status, and one End/Start Call button make up the call screen. The voice loop is online: OpenAI Whisper transcription → OpenAI chat completions → ElevenLabs speech synthesis.
 
-## Run
+## Clone, open, and export an Android APK
 
-1. Open this folder in Godot 4.3 or later.
-2. Add API credentials to `user://echo_config.cfg` on the device (format below), or set the listed environment variables for desktop runs.
-3. Run `Main.tscn` from the editor. Grant microphone permission when Android asks.
-4. Export using the Android preset in `export_presets.cfg`. The export preset enables Internet and microphone permissions.
+Do the export on a computer with Godot installed; install and test the resulting APK on your Android phone.
 
-Godot's `user://` path is private app storage. Create `echo_config.cfg` there using the Godot editor's application data folder for your OS, or install a debug build and write the file into the app's user data directory. Keys are deliberately not included in the repository. Desktop environment variables: `ECHO_OPENAI_API_KEY`, `ECHO_ELEVENLABS_API_KEY`, and `ECHO_ELEVENLABS_VOICE_ID`.
+1. Clone the repository and open it in Godot 4.3 or later:
+   ```sh
+   git clone https://github.com/Mark272291442/PlayGround.git
+   cd PlayGround
+   ```
+   In Godot, choose **Import** and select this folder (the folder containing `project.godot`).
+2. In Godot, open **Editor > Manage Export Templates** and install the templates matching your Godot version.
+3. Install Android Studio and its Android SDK, plus OpenJDK 17. In Godot's **Editor > Editor Settings > Export > Android**, set the Java SDK Path and Android SDK Path to those installations.
+4. Open **Project > Export**, select the **Android** preset, and choose **Export Project**. Export a debug APK to `build/echo-android.apk` (create `build/` first if the file chooser requires it). The preset enables Internet and `RECORD_AUDIO` permissions.
+5. Install the APK on a connected Android device with USB debugging enabled:
+   ```sh
+   adb install -r build/echo-android.apk
+   ```
+6. Create `echo_config.cfg` on the computer using the example below. For this debug build, copy it into the app's private Godot `user://` directory with:
+   ```sh
+   adb shell run-as com.example.echo sh -c 'cat > files/echo_config.cfg' < echo_config.cfg
+   ```
+   This `run-as` method is for a debuggable APK; a release APK is not accessible this way. The package name is `com.example.echo` in the included export preset. Keep the config file and keys private. Relaunch ECHO and grant microphone access when prompted. If access was denied, enable it in Android Settings and tap **ALLOW MIC** to retry.
+
+For desktop runs, set `ECHO_OPENAI_API_KEY`, `ECHO_ELEVENLABS_API_KEY`, and `ECHO_ELEVENLABS_VOICE_ID` in the environment. Godot's `user://` path is private app storage; credentials are deliberately not included in this repository.
 
 Example `user://echo_config.cfg`:
 

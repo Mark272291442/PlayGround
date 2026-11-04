@@ -16,3 +16,8 @@ screenshots/
 .opencode-web/
 
 node_modules/
+
+# Godot editor and Android export artifacts
+.godot/
+build/
+.export/
